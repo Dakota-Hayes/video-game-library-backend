@@ -1,0 +1,111 @@
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+import uuid 
+from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from flask_login import LoginManager
+from flask_marshmallow import Marshmallow 
+import secrets
+
+login_manager = LoginManager()
+ma = Marshmallow()
+db = SQLAlchemy()
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.String, primary_key=True)
+    email = db.Column(db.String(150), nullable = False)
+    password = db.Column(db.String, nullable = True, default = '')
+    g_auth_verify = db.Column(db.Boolean, default = False)
+    token = db.Column(db.String, default = '', unique = True )
+    date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+
+    def __init__(self, email, password='', g_auth_verify=False):
+        self.id = self.set_id()
+        self.email = email
+        self.password = self.set_password(password)
+        self.token = self.set_token(24)
+        self.g_auth_verify = g_auth_verify
+
+    def set_token(self, length):
+        return secrets.token_hex(length)
+
+    def set_id(self):
+        return str(uuid.uuid4())
+    
+    def set_password(self, password):
+        self.pw_hash = generate_password_hash(password)
+        return self.pw_hash
+
+    def __repr__(self):
+        return f'User {self.email} has been added to the database'
+
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ['id', 'password', 'email', 'token', 'g_auth_verify']
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
+
+class Game(db.Model):
+    id = db.Column(db.String, primary_key=True)
+    title = db.Column(db.String(150), nullable= True, default='')
+    version = db.Column(db.String(150), nullable = True, default = '')
+    publisher = db.Column(db.String(150), nullable = True, default = '')
+    region = db.Column(db.String(75), nullable = True, default = '')
+    completed = db.Column(db.Boolean, nullable = True, default = False)
+    status = db.Column(db.String(250), nullable = True, default = '')
+    value = db.Column(db.DECIMAL(7,2), nullable = True, default = 0.00)
+    date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+
+    def __init__(self, title = '', version ='', publisher='', region='', completed='False', status='', value=0.00, date_created=datetime.utcnow):
+        self.id = self.set_id()
+        self.title = title
+        self.version = version
+        self.publisher = publisher
+        self.region = region
+        self.completed = completed
+        self.status = status
+        self.value = value
+        self.date_created = date_created
+
+    def set_id(self):
+        return str(uuid.uuid4())
+
+    def set_title(self, title):
+        self.title = title
+
+    def set_version(self, version):
+        self.version = version
+
+    def set_publisher(self, publisher):
+        self.publisher = publisher
+
+    def set_region(self, region):
+        self.region = region
+
+    def set_completed(self, completed):
+        self.completed = completed
+
+    def set_status(self, status):
+        self.status = status
+
+    def set_value(self, value):
+        self.value = value
+
+    def set_date_created(self, date_created):
+        self.date_created = date_created
+
+    def __repr__(self):
+        return f'Book {self.author_name} has been added to the database'
+
+class GameSchema(ma.Schema):
+    class Meta:
+        fields = ['id', 'title', 'version', 'publisher', 'region', 'completed', 'status', 'value', 'date_created']
+
+game_schema = GameSchema()
+games_schema = GameSchema(many=True)

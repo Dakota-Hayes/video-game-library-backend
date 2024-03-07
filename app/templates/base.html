@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="../static/css/main.css">
+
+<title>Video Game Library Backend</title>
+</head>
+<body>
+    <nav class="container-fluid navbar navbar-expand-lg navbar-dark pt-0 fixed-top" style="background-color: black;">
+        <div class="container p-0 ms-5">
+            <a href="{{ url_for('site.home') }}" class="navbar-brand px-5 py-0">VGLB</a>
+            <button 
+                class="navbar-toggler" 
+                type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#navmenu"
+            ><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav p-0 pt-3 ms-auto">
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <p class="navbar-text" style=" color: white;">WELCOME, {{current_user.email}}!</p>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('auth.signout') }}" class="nav-link">SIGN OUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('site.profile') }}" class="nav-link">PROFILE</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('auth.signin') }}" class="nav-link">SIGN IN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('auth.signup') }}" class="nav-link">SIGN UP</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid p-0 mt-5 mb-0 mx-0">
+        {% block content %}
+        {% endblock %}
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
+</body>
+</html>
