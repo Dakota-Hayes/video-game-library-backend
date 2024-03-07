@@ -5,7 +5,8 @@ from models import db, User, user_schema, users_schema, Game, game_schema, games
 api = Blueprint('api',__name__, url_prefix='/api')
 
 @api.route('/users/create', methods = ['POST'])
-def create_user():
+@token_required
+def create_user(current_user_token):
     email = request.json['email']
     password = request.json['password']
     g_auth_verify = request.json['g_auth_verify']
