@@ -9,6 +9,7 @@ api = Blueprint('api',__name__, url_prefix='/api')
 def create_user(current_user_token):
     admin_account = User.query.get(current_user_token)
     if admin_account.admin == True:
+        print(admin_account.admin)
         email = request.json['email']
         password = request.json['password']
         g_auth_verify = request.json['g_auth_verify']
@@ -19,7 +20,7 @@ def create_user(current_user_token):
         response = user_schema.dump(user)
         return jsonify(response)
     else:
-        #return jsonify("not authorized")
+        return jsonify("not authorized")
 
 
 @api.route('/users/search/all', methods = ['GET'])
