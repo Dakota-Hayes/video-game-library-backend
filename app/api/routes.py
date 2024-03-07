@@ -5,21 +5,22 @@ from models import db, User, user_schema, users_schema, Game, game_schema, games
 api = Blueprint('api',__name__, url_prefix='/api')
 
 @api.route('/users/create', methods = ['POST'])
+#@token_required
 def create_user():
     #admin_account = User.query.get(current_user_token)
-    admin_account.admin = True
-    if admin_account.admin == True:
-        email = request.json['email']
-        password = request.json['password']
-        g_auth_verify = request.json['g_auth_verify']
-        admin = request.json['admin']
-        user = User(email, password, g_auth_verify, admin)
-        db.session.add(user)
-        db.session.commit()
-        response = user_schema.dump(user)
-        return jsonify(response)
-    else:
-        return jsonify("not authorized")
+    #if admin_account.admin == True:
+
+    #else:
+        #return jsonify("not authorized")
+    email = request.json['email']
+    password = request.json['password']
+    g_auth_verify = request.json['g_auth_verify']
+    admin = request.json['admin']
+    user = User(email, password, g_auth_verify, admin)
+    db.session.add(user)
+    db.session.commit()
+    response = user_schema.dump(user)
+    return jsonify(response)
 
 @api.route('/users/search/all', methods = ['GET'])
 @token_required
