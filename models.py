@@ -21,16 +21,18 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), nullable = False)
     password = db.Column(db.String, nullable = True, default = '')
     g_auth_verify = db.Column(db.Boolean, default = False)
+    admin = db.Column(db.Boolean, default = False)
     token = db.Column(db.String, default = '', unique = True )
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
-    def __init__(self, email, password='', g_auth_verify=False):
+    def __init__(self, email, password='', g_auth_verify=False, admin='False'):
         self.id = self.set_id()
         self.email = email
         self.password = self.set_password(password)
         self.token = self.set_token(24)
         self.g_auth_verify = g_auth_verify
-
+        self.admin = admin
+        
     def set_token(self, length):
         return secrets.token_hex(length)
 
@@ -40,13 +42,22 @@ class User(db.Model, UserMixin):
     def set_password(self, password):
         self.pw_hash = generate_password_hash(password)
         return self.pw_hash
+    
+    def set_email(self, email):
+        self.email = email
+
+    def set_g_auth_verify(self, g_auth_verify):
+        self.g_auth_verify = g_auth_verify
+    
+    def set_admin(admin):
+        self.admin = admin
 
     def __repr__(self):
         return f'User {self.email} has been added to the database'
 
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ['id', 'password', 'email', 'token', 'g_auth_verify']
+        fields = ['id', 'password', 'email', 'token', 'g_auth_verify', 'admin', 'date_created']
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
@@ -62,7 +73,7 @@ class Game(db.Model):
     value = db.Column(db.DECIMAL(7,2), nullable = True, default = 0.00)
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
-    def __init__(self, title = '', version ='', publisher='', region='', completed='False', status='', value=0.00, date_created=datetime.utcnow):
+    def __init__(self, title = '', version ='', publisher='', region='', completed='False', status='', value=0.00):
         self.id = self.set_id()
         self.title = title
         self.version = version
@@ -71,7 +82,6 @@ class Game(db.Model):
         self.completed = completed
         self.status = status
         self.value = value
-        self.date_created = date_created
 
     def set_id(self):
         return str(uuid.uuid4())
