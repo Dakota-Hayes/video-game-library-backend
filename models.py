@@ -64,7 +64,8 @@ users_schema = UserSchema(many=True)
 
 class Game(db.Model):
     id = db.Column(db.String, primary_key=True)
-    title = db.Column(db.String(150), nullable= True, default='')
+    owner = db.Column(db.String(150), nullable = True, default='')
+    title = db.Column(db.String(150), nullable = True, default='')
     version = db.Column(db.String(150), nullable = True, default = '')
     publisher = db.Column(db.String(150), nullable = True, default = '')
     region = db.Column(db.String(75), nullable = True, default = '')
@@ -73,8 +74,9 @@ class Game(db.Model):
     value = db.Column(db.DECIMAL(7,2), nullable = True, default = 0.00)
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
-    def __init__(self, title = '', version ='', publisher='', region='', completed='False', status='', value=0.00):
+    def __init__(self, owner = '', title = '', version ='', publisher='', region='', completed='False', status='', value=0.00):
         self.id = self.set_id()
+        self.owner = owner
         self.title = title
         self.version = version
         self.publisher = publisher
@@ -115,7 +117,7 @@ class Game(db.Model):
 
 class GameSchema(ma.Schema):
     class Meta:
-        fields = ['id', 'title', 'version', 'publisher', 'region', 'completed', 'status', 'value', 'date_created']
+        fields = ['id', 'owner', 'title', 'version', 'publisher', 'region', 'completed', 'status', 'value', 'date_created']
 
 game_schema = GameSchema()
 games_schema = GameSchema(many=True)
