@@ -9,7 +9,7 @@ def create_user(current_user_token):
     email = request.json['email']
     password = request.json['password']
     g_auth_verify = request.json['g_auth_verify']
-    admin = request.json['g_auth_verify']
+    admin = request.json['admin']
     user = User(email, password, g_auth_verify, admin)
     db.session.add(user)
     db.session.commit()
