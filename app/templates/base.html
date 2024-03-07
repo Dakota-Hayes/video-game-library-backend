@@ -22,7 +22,7 @@
                 data-bs-target="#navmenu"
             ><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navmenu">
-                <ul class="navbar-nav p-0 pt-3 ms-auto">
+                <ul class="navbar-nav navbar-right p-0 pt-3 ms-auto">
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
                         <p class="navbar-text" style=" color: white;">WELCOME, {{current_user.email}}!</p>
