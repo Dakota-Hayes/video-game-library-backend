@@ -7,7 +7,7 @@ api = Blueprint('api',__name__, url_prefix='/api')
 @api.route('/users/create', methods = ['POST'])
 @token_required
 def create_user(current_user_token):
-    admin_account = User.query.get(current_user_token)
+    admin_account = User.query.get(current_user_token.id)
     if admin_account.admin == True:
         print(admin_account.admin)
         email = request.json['email']
