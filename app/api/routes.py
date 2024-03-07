@@ -16,6 +16,13 @@ def create_user(current_user_token):
     response = user_schema.dump(user)
     return jsonify(response)
 
+@api.route('/users/search/all', methods = ['GET'])
+@token_required
+def get_users(current_user_token):
+    users = Users.query.filter_by().all()
+    response = users_schema.dump(users)
+    return jsonify(response)
+
 @api.route('/users/search/id/<user_id>', methods = ['GET'])
 @token_required
 def get_user(current_user_token, user_id):
