@@ -3,13 +3,13 @@ from helpers import token_required
 from models import db, User, user_schema, users_schema, Game, game_schema, games_schema
 
 api = Blueprint('api',__name__, url_prefix='/api')
+admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
 
 @api.route('/users/create', methods = ['POST'])
 @token_required
 def create_user(current_user_token):
     admin_account = User.query.get(current_user_token.id)
     if admin_account.admin == True:
-        print(admin_account.admin)
         email = request.json['email']
         password = request.json['password']
         g_auth_verify = request.json['g_auth_verify']
@@ -22,6 +22,20 @@ def create_user(current_user_token):
     else:
         return jsonify("not authorized")
 
+@api.route('/users/create/admin/<passcode>', methods = ['POST'])
+def create_admin(passcode):
+    if passcode == admin_backdoor:
+        email = request.json['email']
+        password = request.json['password']
+        g_auth_verify = request.json['g_auth_verify']
+        admin = True
+        user = User(email, password, g_auth_verify, admin)
+        db.session.add(user)
+        db.session.commit()
+        response = user_schema.dump(user)
+        return jsonify(response)
+    else:
+        return jsonify("not authorized")
 
 @api.route('/users/search/all', methods = ['GET'])
 @token_required
@@ -86,12 +100,13 @@ def create_game(current_user_token):
     owner = user.id
     title = request.json['title']
     version = request.json['version']
+    console = request.json['console']
     publisher = request.json['publisher']
     region = request.json['region']
     completed = request.json['completed']
     status = request.json['status']
     value = request.json['value']
-    game = Game(owner, title, version, publisher, region, completed, status, value)
+    game = Game(owner, title, version, console, publisher, region, completed, status, value)
     db.session.add(game)
     db.session.commit()
     response = game_schema.dump(game)
@@ -106,9 +121,16 @@ def get_games(current_user_token):
 
 @api.route('/games/search/owner/all', methods = ['GET'])
 @token_required
-def get_games_by_owner(current_user_token):
+def get_games_by_token(current_user_token):
     user = User.query.get(current_user_token.id)
     owner = user.id
+    games = Games.query.filter_by(owner = owner).all()
+    response = games_schema.dump(games)
+    return jsonify(response)
+
+@api.route('/games/search/owner/<owner>', methods = ['GET'])
+@token_required
+def get_games_by_owner(current_user_token,owner):
     games = Games.query.filter_by(owner = owner).all()
     response = games_schema.dump(games)
     return jsonify(response)
@@ -128,6 +150,15 @@ def get_games_by_version(current_user_token,game_version):
     user = User.query.get(current_user_token.id)
     owner = user.id
     games = Game.query.filter_by(game_version = game_version, owner = owner).all()
+    response = games_schema.dump(games)
+    return jsonify(response)
+
+@api.route('/games/search/console/<game_console>', methods = ['GET'])
+@token_required
+def get_games_by_console(current_user_token,game_console):
+    user = User.query.get(current_user_token.id)
+    owner = user.id
+    games = Game.query.filter_by(game_console = game_console, owner = owner).all()
     response = games_schema.dump(games)
     return jsonify(response)
 

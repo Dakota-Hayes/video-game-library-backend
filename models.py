@@ -67,6 +67,7 @@ class Game(db.Model):
     owner = db.Column(db.String(150), nullable = True, default='')
     title = db.Column(db.String(150), nullable = True, default='')
     version = db.Column(db.String(150), nullable = True, default = '')
+    console = db.Column(db.String(150), nullable = True, default = '')
     publisher = db.Column(db.String(150), nullable = True, default = '')
     region = db.Column(db.String(75), nullable = True, default = '')
     completed = db.Column(db.Boolean, nullable = True, default = False)
@@ -74,11 +75,12 @@ class Game(db.Model):
     value = db.Column(db.DECIMAL(7,2), nullable = True, default = 0.00)
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
-    def __init__(self, owner = '', title = '', version ='', publisher='', region='', completed='False', status='', value=0.00):
+    def __init__(self, owner = '', title = '', version ='', console ='', publisher='', region='', completed='False', status='', value=0.00):
         self.id = self.set_id()
         self.owner = owner
         self.title = title
         self.version = version
+        self.console = console
         self.publisher = publisher
         self.region = region
         self.completed = completed
@@ -93,6 +95,9 @@ class Game(db.Model):
 
     def set_version(self, version):
         self.version = version
+    
+    def set_console(self, console):
+        self.console = console
 
     def set_publisher(self, publisher):
         self.publisher = publisher
@@ -113,11 +118,11 @@ class Game(db.Model):
         self.date_created = date_created
 
     def __repr__(self):
-        return f'Book {self.author_name} has been added to the database'
+        return f'Game {self.author_name} has been added to the database'
 
 class GameSchema(ma.Schema):
     class Meta:
-        fields = ['id', 'owner', 'title', 'version', 'publisher', 'region', 'completed', 'status', 'value', 'date_created']
+        fields = ['id', 'owner', 'title', 'version', 'console', 'publisher', 'region', 'completed', 'status', 'value', 'date_created']
 
 game_schema = GameSchema()
 games_schema = GameSchema(many=True)
