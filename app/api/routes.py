@@ -5,6 +5,26 @@ from models import db, User, user_schema, users_schema, Game, game_schema, games
 api = Blueprint('api',__name__, url_prefix='/api')
 admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
 
+@api.route('/users/authorization', methods = ['GET'])
+@token_required
+def get_user_authorization(current_user_token):
+    admin_account = User.query.get(current_user_token.id)
+    if admin_account.admin == True:
+        user_email = request.json['email']
+        user_password = request.json['password']
+        user = User.query.get(user_email)
+        if user.password == user_password:
+            fan = current_user_token.token
+            if fan == current_user_token.token:
+                response = user_schema.dump(user)
+                return jsonify(response)
+            else:
+                return jsonify({"message": "Valid Token Required"}),401
+        else:
+            return jsonify("incorrect login info")
+    else:
+        return jsonify("not authorized")
+
 @api.route('/users/create', methods = ['POST'])
 @token_required
 def create_user(current_user_token):
