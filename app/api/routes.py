@@ -124,9 +124,9 @@ def create_game(current_user_token):
     publisher = request.json['publisher']
     region = request.json['region']
     completed = request.json['completed']
-    status = request.json['status']
+    condition = request.json['condition']
     value = request.json['value']
-    game = Game(owner, title, version, console, publisher, region, completed, status, value)
+    game = Game(owner, title, version, console, publisher, region, completed, condition, value)
     db.session.add(game)
     db.session.commit()
     response = game_schema.dump(game)
@@ -239,10 +239,11 @@ def update_game(current_user_token,game_id):
     game = Game.query.get(game_id, owner)
     game.title = request.json['title']
     game.version = request.json['version']
+    game.console = request.json['console']
     game.publisher = request.json['publisher']
     game.region = request.json['region']
     game.completed = request.json['completed']
-    game.status = request.json['status']
+    game.condition = request.json['condition']
     game.value = request.json['value']
     db.session.commit()
     response = game_schema.dump(game)
