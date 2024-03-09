@@ -5,7 +5,7 @@ from models import db, User, user_schema, users_schema, Game, game_schema, games
 api = Blueprint('api',__name__, url_prefix='/api')
 admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
 
-@api.route('/users/authorization', methods = ['GET'])
+@api.route('/users/authorization', methods = ['POST'])
 @token_required
 def get_user_authorization(current_user_token):
     admin_account = User.query.get(current_user_token.id)
@@ -68,7 +68,7 @@ def get_users(current_user_token):
     else:
         return jsonify("not authorized")
 
-@api.route('/users/search/id/<user_id>', methods = ['PUT'])
+@api.route('/users/search/id/<user_id>', methods = ['GET'])
 @token_required
 def get_user(current_user_token, user_id):
     admin_account = User.query.get(current_user_token.id)
