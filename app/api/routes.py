@@ -68,7 +68,7 @@ def get_users(current_user_token):
     else:
         return jsonify("not authorized")
 
-@api.route('/users/search/id/<user_id>', methods = ['GET'])
+@api.route('/users/search/id/<user_id>', methods = ['PUT'])
 @token_required
 def get_user(current_user_token, user_id):
     admin_account = User.query.get(current_user_token.id)
