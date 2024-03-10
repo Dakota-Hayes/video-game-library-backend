@@ -12,7 +12,7 @@ def get_user_authorization(current_user_token):
     if admin_account.admin == True:
         user_email = request.json['email']
         user_password = request.json['password']
-        user = User.query.get(user_email)
+        user = User.query.get(user_email.id)
         if user.password == user_password:
             fan = current_user_token.token
             if fan == current_user_token.token:
