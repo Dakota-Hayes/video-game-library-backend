@@ -8,7 +8,6 @@ admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
 @token_required
 def get_user_authorization(current_user_token):
     admin_account = User.query.get(current_user_token.id)
-    print("admin",admin_account.token)
     if admin_account.admin == True:
         user_email = request.json['email']
         user_password = request.json['password']

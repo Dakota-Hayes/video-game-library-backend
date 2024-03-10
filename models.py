@@ -53,7 +53,7 @@ class User(db.Model, UserMixin):
         self.admin = admin
 
     def __repr__(self):
-        return f'User {self.email} has been added to the database'
+        return f'User {self.email}'
 
 class UserSchema(ma.Schema):
     class Meta:
@@ -118,7 +118,7 @@ class Game(db.Model):
         self.date_created = date_created
 
     def __repr__(self):
-        return f'Game {self.author_name} has been added to the database'
+        return f'Game {self.title}'
 
 class GameSchema(ma.Schema):
     class Meta:

@@ -16,8 +16,6 @@ def token_required(our_flask_function):
 
         try:
             current_user_token = User.query.filter_by(token = token).first()
-            print(token)
-            print(current_user_token)
         except:
             owner=User.query.filter_by(token=token).first()
 
