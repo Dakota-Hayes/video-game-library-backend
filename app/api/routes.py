@@ -248,7 +248,9 @@ def update_game(current_user_token,game_id):
 @token_required
 def delete_game(current_user_token, game_id):
     game = Game.query.get(game_id)
+    print(game)
     user = User.query.get(current_user_token.id)
+    print(user)
     if game.owner == user:
         db.session.delete(game)
         db.session.commit()
