@@ -13,7 +13,7 @@ def get_user_authorization(current_user_token):
         user_email = request.json['email']
         user_password = request.json['password']
         user = User.query.get(user_email.id)
-        if user.password == user_password:
+        if user.password == user_password.id:
             fan = current_user_token.token
             if fan == current_user_token.token:
                 response = user_schema.dump(user)
