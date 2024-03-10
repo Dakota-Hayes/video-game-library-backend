@@ -120,6 +120,7 @@ def create_game(current_user_token):
     console = request.json['console']
     publisher = request.json['publisher']
     region = request.json['region']
+    print(request.json['completed'])
     completed = request.json['completed']
     condition = request.json['condition']
     value = request.json['value']
