@@ -14,17 +14,13 @@ def get_user_authorization(current_user_token):
         user_email = request.json['email']
         user_password = request.json['password']
         print("passed email",user_email, "passed password",user_password)
-        user = User.query.get(user_email)
+        user = User.query.filter_by(email=user_email).first()
         print("user",user.token)
         print("user pass",user.password)
         if user.password == user_password:
-            fan = current_user_token.token
-            if fan == current_user_token.token:
-                response = user_schema.dump(user)
-                return jsonify(response)
-            else:
-                print("bad token")
-                return jsonify({"message": "Valid Token Required"}),401
+            response = user_schema.dump(user)
+            print("response",response)
+            return jsonify(response)
         else:
             print("incorrect login")
             return jsonify("incorrect login info")
