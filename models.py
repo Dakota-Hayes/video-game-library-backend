@@ -53,7 +53,7 @@ class User(db.Model, UserMixin):
         self.admin = admin
 
     def __repr__(self):
-        return f'User {self.email}'
+        return f'User {self.id, self.password, self.email, self.token, self.g_auth_verify, self.admin, self.date_created}'
 
 class UserSchema(ma.Schema):
     class Meta:
@@ -118,7 +118,7 @@ class Game(db.Model):
         self.date_created = date_created
 
     def __repr__(self):
-        return f'Game {self.title}'
+        return f'Game {self.id,self.owner,self.title,self.version,self.console,self.publisher,self.region,self.completed,self.condition,self.value,self.date_created} '
 
 class GameSchema(ma.Schema):
     class Meta:
