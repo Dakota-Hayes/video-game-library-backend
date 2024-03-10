@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from helpers import token_required
-from models import db, User, user_schema, users_schema, Game, game_schema, games_schema
-
+from models import db, User, user_schema, users_schema, Game, game_schema, games_schema, check_password_hash
 api = Blueprint('api',__name__, url_prefix='/api')
 admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
 
@@ -17,7 +16,7 @@ def get_user_authorization(current_user_token):
         user = User.query.filter_by(email=user_email).first()
         print("user",user.token)
         print("user pass",user.password)
-        if user.password == user_password:
+        if user and check_password_hash(user.password, user_password):
             response = user_schema.dump(user)
             print("response",response)
             return jsonify(response)
