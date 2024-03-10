@@ -12,19 +12,13 @@ def get_user_authorization(current_user_token):
     if admin_account.admin == True:
         user_email = request.json['email']
         user_password = request.json['password']
-        print("passed email",user_email, "passed password",user_password)
         user = User.query.filter_by(email=user_email).first()
-        print("user",user.token)
-        print("user pass",user.password)
         if user and check_password_hash(user.password, user_password):
             response = user_schema.dump(user)
-            print("response",response)
             return jsonify(response)
         else:
-            print("incorrect login")
             return jsonify("incorrect login info")
     else:
-        print("Not authorized")
         return jsonify("not authorized")
 
 @api.route('/users/create', methods = ['POST'])
@@ -118,6 +112,7 @@ def delete_user(current_user_token, user_id):
 @api.route('/games/create', methods = ['POST'])
 @token_required
 def create_game(current_user_token):
+    print("token",current_user_token,current_user_token.id)
     user = User.query.get(current_user_token.id)
     owner = user.id
     title = request.json['title']
