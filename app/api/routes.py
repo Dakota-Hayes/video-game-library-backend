@@ -14,7 +14,7 @@ def get_user_authorization(current_user_token):
         user_email = request.json['email']
         user_password = request.json['password']
         print(user_email,user_password)
-        user = User.query.get(user_email.id)
+        user = User.query.get(user_email)
         print(user)
         if user.password == user_password.id:
             fan = current_user_token.token
