@@ -9,20 +9,26 @@ admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
 @token_required
 def get_user_authorization(current_user_token):
     admin_account = User.query.get(current_user_token.id)
+    print(admin_account)
     if admin_account.admin == True:
         user_email = request.json['email']
         user_password = request.json['password']
+        print(user_email,user_password)
         user = User.query.get(user_email.id)
+        print(user)
         if user.password == user_password.id:
             fan = current_user_token.token
             if fan == current_user_token.token:
                 response = user_schema.dump(user)
                 return jsonify(response)
             else:
+                print("bad token")
                 return jsonify({"message": "Valid Token Required"}),401
         else:
+            print("incorrect login")
             return jsonify("incorrect login info")
     else:
+        print("Not authorized")
         return jsonify("not authorized")
 
 @api.route('/users/create', methods = ['POST'])
