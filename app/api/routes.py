@@ -137,7 +137,7 @@ def create_game(current_user_token):
 @api.route('/games/search/all', methods = ['GET'])
 @token_required
 def get_games(current_user_token):
-    games = Games.query.filter_by().all()
+    games = Game.query.filter_by().all()
     response = games_schema.dump(games)
     return jsonify(response)
 
@@ -146,14 +146,14 @@ def get_games(current_user_token):
 def get_games_by_token(current_user_token):
     user = User.query.get(current_user_token.id)
     owner = user.id
-    games = Games.query.filter_by(owner = owner).all()
+    games = Game.query.filter_by(owner = owner).all()
     response = games_schema.dump(games)
     return jsonify(response)
 
 @api.route('/games/search/owner/<owner>', methods = ['GET'])
 @token_required
 def get_games_by_owner(current_user_token,owner):
-    games = Games.query.filter_by(owner = owner).all()
+    games = Game.query.filter_by(owner = owner).all()
     response = games_schema.dump(games)
     return jsonify(response)
 
