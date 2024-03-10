@@ -112,7 +112,6 @@ def delete_user(current_user_token, user_id):
 @api.route('/games/create', methods = ['POST'])
 @token_required
 def create_game(current_user_token):
-    print("token",current_user_token,current_user_token.id)
     user = User.query.get(current_user_token.id)
     owner = user.id
     title = request.json['title']
@@ -120,7 +119,6 @@ def create_game(current_user_token):
     console = request.json['console']
     publisher = request.json['publisher']
     region = request.json['region']
-    print(request.json['completed'])
     completed = request.json['completed']
     condition = request.json['condition']
     value = request.json['value']
@@ -219,41 +217,43 @@ def get_games_by_value(current_user_token,game_value):
 @api.route('/games/search/id/<game_id>', methods = ['GET'])
 @token_required
 def get_game(current_user_token, game_id):
+    game = Game.query.get(game_id)
     user = User.query.get(current_user_token.id)
-    owner = user.id
-    fan = current_user_token.token
-    if fan == current_user_token.token:
-        game = Game.query.get(game_id, owner)
+    if game.owner == user:
         response = game_schema.dump(game)
         return jsonify(response)
     else:
-        return jsonify({"message": "Valid Token Required"}),401
+        return jsonify("Incorrect credentials")
 
 @api.route('/games/update/id/<game_id>', methods = ['POST','PUT'])
 @token_required
 def update_game(current_user_token,game_id):
+    game = Game.query.get(game_id)
     user = User.query.get(current_user_token.id)
-    owner = user.id
-    game = Game.query.get(game_id, owner)
-    game.title = request.json['title']
-    game.version = request.json['version']
-    game.console = request.json['console']
-    game.publisher = request.json['publisher']
-    game.region = request.json['region']
-    game.completed = request.json['completed']
-    game.condition = request.json['condition']
-    game.value = request.json['value']
-    db.session.commit()
-    response = game_schema.dump(game)
-    return jsonify(response)
+    if game.owner == user:
+        game.title = request.json['title']
+        game.version = request.json['version']
+        game.console = request.json['console']
+        game.publisher = request.json['publisher']
+        game.region = request.json['region']
+        game.completed = request.json['completed']
+        game.condition = request.json['condition']
+        game.value = request.json['value']
+        db.session.commit()
+        response = game_schema.dump(game)
+        return jsonify(response)
+    else:
+        return jsonify("Incorrect credentials")
 
 @api.route('/games/delete/id/<game_id>', methods = ['DELETE'])
 @token_required
 def delete_game(current_user_token, game_id):
+    game = Game.query.get(game_id)
     user = User.query.get(current_user_token.id)
-    owner = user.id
-    game = Game.query.get(game_id, owner)
-    db.session.delete(game)
-    db.session.commit()
-    response = game_schema.dump(game)
-    return jsonify(response)
+    if game.owner == user:
+        db.session.delete(game)
+        db.session.commit()
+        response = game_schema.dump(game)
+        return jsonify(response)
+    else:
+        return jsonify("Incorrect credentials")
