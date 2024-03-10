@@ -70,7 +70,7 @@ class Game(db.Model):
     console = db.Column(db.String(150), nullable = True, default = '')
     publisher = db.Column(db.String(150), nullable = True, default = '')
     region = db.Column(db.String(75), nullable = True, default = '')
-    completed = db.Column(db.Boolean, nullable = True, default = False)
+    completed = db.Column(db.String(75), nullable = True, default = "False")
     condition = db.Column(db.String(250), nullable = True, default = '')
     value = db.Column(db.String(75), nullable = True, default = '')
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
