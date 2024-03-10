@@ -218,7 +218,7 @@ def get_games_by_value(current_user_token,game_value):
 def get_game(current_user_token, game_id):
     game = Game.query.get(game_id)
     user = User.query.get(current_user_token.id)
-    if game.owner == user:
+    if game.owner == user.id:
         response = game_schema.dump(game)
         return jsonify(response)
     else:
@@ -229,7 +229,7 @@ def get_game(current_user_token, game_id):
 def update_game(current_user_token,game_id):
     game = Game.query.get(game_id)
     user = User.query.get(current_user_token.id)
-    if game.owner == user:
+    if game.owner == user.id:
         game.title = request.json['title']
         game.version = request.json['version']
         game.console = request.json['console']
@@ -248,10 +248,8 @@ def update_game(current_user_token,game_id):
 @token_required
 def delete_game(current_user_token, game_id):
     game = Game.query.get(game_id)
-    print(game)
     user = User.query.get(current_user_token.id)
-    print(user)
-    if game.owner == user:
+    if game.owner == user.id:
         db.session.delete(game)
         db.session.commit()
         response = game_schema.dump(game)
