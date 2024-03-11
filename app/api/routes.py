@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, render_template
 from helpers import token_required
 from models import db, User, user_schema, users_schema, Game, game_schema, games_schema, check_password_hash
 api = Blueprint('api',__name__, url_prefix='/api')
-#admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
+admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
 
 @api.route('/users/authorization', methods = ['POST'])
 @token_required
@@ -37,7 +37,7 @@ def create_user(current_user_token):
     else:
         return jsonify("not authorized")
 
-""" @api.route('/users/create/admin/<passcode>', methods = ['POST'])
+@api.route('/users/create/admin/<passcode>', methods = ['POST'])
 def create_admin(passcode):
     if passcode == admin_backdoor:
         email = request.json['email']
@@ -50,7 +50,7 @@ def create_admin(passcode):
         response = user_schema.dump(user)
         return jsonify(response)
     else:
-        return jsonify("not authorized") """
+        return jsonify("not authorized")
 
 @api.route('/users/search/all', methods = ['GET'])
 @token_required

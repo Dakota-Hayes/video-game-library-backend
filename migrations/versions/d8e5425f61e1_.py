@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 9b4e922accb9
+Revision ID: d8e5425f61e1
 Revises: 
-Create Date: 2024-03-08 15:17:22.021750
+Create Date: 2024-03-10 20:52:14.015667
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9b4e922accb9'
+revision = 'd8e5425f61e1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,7 +26,7 @@ def upgrade():
     sa.Column('console', sa.String(length=150), nullable=True),
     sa.Column('publisher', sa.String(length=150), nullable=True),
     sa.Column('region', sa.String(length=75), nullable=True),
-    sa.Column('completed', sa.Boolean(), nullable=True),
+    sa.Column('completed', sa.String(length=75), nullable=True),
     sa.Column('condition', sa.String(length=250), nullable=True),
     sa.Column('value', sa.String(length=75), nullable=True),
     sa.Column('date_created', sa.DateTime(), nullable=False),
@@ -37,7 +37,7 @@ def upgrade():
     sa.Column('email', sa.String(length=150), nullable=False),
     sa.Column('password', sa.String(), nullable=True),
     sa.Column('g_auth_verify', sa.Boolean(), nullable=True),
-    sa.Column('admin', sa.Boolean(), nullable=True),
+    sa.Column('admin', sa.String(length=75), nullable=True),
     sa.Column('token', sa.String(), nullable=True),
     sa.Column('date_created', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
