@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), nullable = False)
     password = db.Column(db.String, nullable = True, default = '')
     g_auth_verify = db.Column(db.Boolean, default = False)
-    admin = db.Column(db.Boolean, default = False)
+    admin = db.Column(db.string(75), default = "False")
     token = db.Column(db.String, default = '', unique = True )
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 

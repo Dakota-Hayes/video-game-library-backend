@@ -1,14 +1,241 @@
 {% extends 'base.html' %}
 {% block content %} 
     <section class="text-center">
-    <div class="container p-10 m-5">
-        <div class="row"><br>
-            <h3 class="p-5">Profile Details</h3>
-            <ul class="list-group">
-                <li class="list-group-item">Email: {{ current_user.email }}</li>
-                <li class="list-group-item">Token: {{ current_user.token }} </li>
-            </ul>
+        <div class="container p-10 m-5">
+            <div class="row"><br>
+                <h1 class="p-5">Profile Details</h1>
+                <div>
+                    <h3>EMAIL: {{ current_user.email }}</h3>
+                    <h3>TOKEN: {{ current_user.token }}</h3>
+                    <h3>ID: {{ current_user.id }}</h3>
+                </div>
+                <div>
+                    <h2>Calls</h2>
+                    <div>
+                        <p>
+                                get_game_by_id: async (id: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/id/${id}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                get_games_by_title: async (title: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/title/${title}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                get_games_by_version: async (version: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/version/${version}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                get_games_by_console: async (console: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/version/${console}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                get_games_by_region: async (region: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/region/${region}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                get_games_by_publisher: async (publisher: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/publisher/${publisher}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                get_games_by_completed: async (completed: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/completed/${completed}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                get_games_by_value: async (value: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/value/${value}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                get_games_by_owner: async (owner: string, token: string) => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/owner/${owner}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                },  
+                                get_all_games: async () => { 
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/search/all`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer ${admin_token}`
+                                        }
+                            
+                                    });
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to fetch data from the server')
+                                    }
+                                    return await response.json()
+                                },
+                                create_game: async (data: any = {}, token: string) => {
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/create`,{
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        },
+                                        body: JSON.stringify(data)
+                                    })
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to create new data on server')
+                                    }
+                                    return await response.json()
+                                },
+                                update_game_by_id: async (id: string, data:any = {}, token: string) => {
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/update/id/${id}`,
+                                    {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        },
+                                        body: JSON.stringify(data)
+                            
+                                    })
+                            
+                                    if (!response.ok) {
+                                        throw new Error('Failed to update data on the server')
+                                    }
+                            
+                                    return await response.json()
+                                },
+                                delete_game_by_id: async (id:string[], token: string) => {
+                                    const response = await fetch(`https://video-game-library-backend.onrender.com//api/games/delete/id/${id}`,{
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Access-Control-Allow-Origin': '*',
+                                            'x-access-token': `Bearer {{ current_user.token }}`
+                                        },
+                                    })
+                            
+                                    if (!response.ok){
+                                        throw new Error('Failed to delete data on server')
+                                    }
+                                    return;
+                                }
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
     </section>
 {% endblock %}
