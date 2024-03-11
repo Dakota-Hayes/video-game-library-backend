@@ -8,7 +8,7 @@ admin_backdoor = "3ewr67A]t[;l,..,mhgyWyAu1l[Hwgf82[,lmoi_]]]"
 @token_required
 def get_user_authorization(current_user_token):
     admin_account = User.query.get(current_user_token.id)
-    if admin_account.admin == True:
+    if admin_account.admin == "True":
         user_email = request.json['email']
         user_password = request.json['password']
         user = User.query.filter_by(email=user_email).first()
@@ -24,7 +24,7 @@ def get_user_authorization(current_user_token):
 @token_required
 def create_user(current_user_token):
     admin_account = User.query.get(current_user_token.id)
-    if admin_account.admin == True:
+    if admin_account.admin == "True":
         email = request.json['email']
         password = request.json['password']
         g_auth_verify = request.json['g_auth_verify']
@@ -43,7 +43,7 @@ def create_admin(passcode):
         email = request.json['email']
         password = request.json['password']
         g_auth_verify = request.json['g_auth_verify']
-        admin = True
+        admin = "True"
         user = User(email, password, g_auth_verify, admin)
         db.session.add(user)
         db.session.commit()
@@ -56,7 +56,7 @@ def create_admin(passcode):
 @token_required
 def get_users(current_user_token):
     admin_account = User.query.get(current_user_token.id)
-    if admin_account.admin == True:
+    if admin_account.admin == "True":
         users = Users.query.filter_by().all()
         response = users_schema.dump(users)
         return jsonify(response)
@@ -67,7 +67,7 @@ def get_users(current_user_token):
 @token_required
 def get_user(current_user_token, user_id):
     admin_account = User.query.get(current_user_token.id)
-    if admin_account.admin == True:
+    if admin_account.admin == "True":
         fan = current_user_token.token
         if fan == current_user_token.token:
             user = User.query.get(user_id)
@@ -82,7 +82,7 @@ def get_user(current_user_token, user_id):
 @token_required
 def update_user(current_user_token,user_id):
     admin_account = User.query.get(current_user_token.id)
-    if admin_account.admin == True:
+    if admin_account.admin == "True":
         user = User.query.get(user_id) 
         user.email = request.json['email']
         user.password = request.json['password']
@@ -99,7 +99,7 @@ def update_user(current_user_token,user_id):
 @token_required
 def delete_user(current_user_token, user_id):
     admin_account = User.query.get(current_user_token.id)
-    if admin_account.admin == True:
+    if admin_account.admin == "True":
         user = User.query.get(user_id)
         db.session.delete(user)
         db.session.commit()
