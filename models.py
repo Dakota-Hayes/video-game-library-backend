@@ -20,12 +20,12 @@ class User(db.Model, UserMixin):
     id = db.Column(db.String, primary_key=True)
     email = db.Column(db.String(150), nullable = False)
     password = db.Column(db.String, nullable = True, default = '')
-    g_auth_verify = db.Column(db.Boolean, default = False)
+    g_auth_verify = db.Column(db.String(75), default = "False")
     admin = db.Column(db.String(75), default = "False")
     token = db.Column(db.String, default = '', unique = True )
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
-    def __init__(self, email, password='', g_auth_verify=False, admin="False"):
+    def __init__(self, email, password='', g_auth_verify="False", admin="False"):
         self.id = self.set_id()
         self.email = email
         self.password = self.set_password(password)
